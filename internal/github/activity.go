@@ -8,9 +8,11 @@ import (
 	"strings"
 )
 
+var httpGet = http.Get
+
 func FetchUserActivity(username string) ([]UserActivity, error) {
 	url := fmt.Sprintf("https://api.github.com/users/%s/events", username)
-	resp, err := http.Get(url)
+	resp, err := httpGet(url)
 	if err != nil {
 		return nil, err
 	}

@@ -23,6 +23,27 @@ const (
 	WatchEvent                    EventType = "WatchEvent"
 )
 
+var AllEventTypes = []EventType{
+	PushEvent,
+	PullRequestEvent,
+	IssueEvent,
+	ReleaseEvent,
+	CommitCommentEvent,
+	CreateEvent,
+	DeleteEvent,
+	ForkEvent,
+	GollumEvent,
+	IssueCommentEvent,
+	IssuesEvent,
+	MemberEvent,
+	PublicEvent,
+	PullRequestReviewEvent,
+	PullRequestReviewCommentEvent,
+	PullRequestReviewThreadEvent,
+	SponsorshipEvent,
+	WatchEvent,
+}
+
 type UserActivity struct {
 	ID    string    `json:"id"`
 	Type  EventType `json:"type"`
@@ -62,12 +83,12 @@ type UserActivity struct {
 	CreatedAt string `json:"created_at"`
 }
 
-type errMessage struct {
+type ErrMessage struct {
 	Message          string
 	DocumentationURL string
 	Status           string
 }
 
-func (e errMessage) Error() string {
+func (e ErrMessage) Error() string {
 	return e.Message
 }

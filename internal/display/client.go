@@ -16,5 +16,9 @@ func GetUserInput(prompt string) string {
 		return ""
 	}
 	username = strings.TrimSpace(username)
+	if strings.ToLower(username) == "exit" {
+		fmt.Println("Goodbye!")
+		os.Exit(0)
+	}
 	return username
 }

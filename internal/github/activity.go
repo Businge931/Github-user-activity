@@ -10,7 +10,15 @@ import (
 
 var httpGet = http.Get
 
+// activityCache stores user activity by username for this process run
+var activityCache = make(map[string][]UserActivity)
+
 func FetchUserActivity(username string) ([]UserActivity, error) {
+	// Check cache first
+	if data, ok := activityCache[username]; ok {
+		return data, nil
+	}
+
 	url := fmt.Sprintf("https://api.github.com/users/%s/events", username)
 	resp, err := httpGet(url)
 	if err != nil {
@@ -41,6 +49,8 @@ func FetchUserActivity(username string) ([]UserActivity, error) {
 	if err := json.Unmarshal(body, &userActivity); err != nil {
 		return nil, err
 	}
+	// Store in cache
+	activityCache[username] = userActivity
 
 	return userActivity, nil
 }

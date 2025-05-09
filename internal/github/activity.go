@@ -22,16 +22,13 @@ func FetchUserActivity(username string) ([]UserActivity, error) {
 	}
 
 	if resp.StatusCode != 200 {
-		var apiErr struct {
-			Message          string `json:"message"`
-			DocumentationURL string `json:"documentation_url"`
-		}
+		var apiErr ErrMessage
 		err := json.Unmarshal(body, &apiErr)
 		if err != nil {
-			apiErr.Message = "Unknown error"
+			apiErr.Message = "Not Found"
 			apiErr.DocumentationURL = "https://docs.github.com/rest/activity/events#list-events-for-the-authenticated-user"
 		}
-		return nil, errMessage{
+		return nil, ErrMessage{
 			Message:          apiErr.Message,
 			DocumentationURL: apiErr.DocumentationURL,
 			Status:           fmt.Sprintf("%d", resp.StatusCode),
